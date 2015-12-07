@@ -31,8 +31,9 @@ vim配置备份，期待慢慢完善。
 > vim-colorschemes一大堆主题    https://github.com/flazz/vim-colorschemes.git
 
 
-##### 一些注意的点
-====
-1. YouCompleteMe 需要编译，具体可以看官网
-2. syntastic 需要添加一些依赖才可以使用pep8的提示，在vimrc里面有写
-3. tagbar 需要添加系统依赖, 在vimrc里面有写
+``````
+一些注意的点
+``````
+> 1. YouCompleteMe 需要编译，具体可以看官网
+> 2. syntastic 需要添加一些依赖才可以使用pep8的提示，在vimrc里面有写
+> 3. tagbar 需要添加系统依赖, 在vimrc里面有写
