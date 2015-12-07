@@ -233,7 +233,7 @@ Plugin 'https://github.com/bling/vim-airline.git'
 Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
 Plugin 'https://github.com/davidhalter/jedi-vim.git'
 Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
-Plugin 'flazz/vim-colorschemes'
+Plugin 'https://github.com/flazz/vim-colorschemes.git'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
