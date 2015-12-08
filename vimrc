@@ -17,6 +17,7 @@ set incsearch
 nmap <Esc><Esc> :nohlsearch<CR>
 
 " 以下三个配置配合使用，设置tab和缩进空格数
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -37,7 +38,7 @@ setlocal noswapfile
 set number
 
 " 继承前一行的缩进方式，特别适合于多行注释
-set autoindent
+" set autoindent
 
 " 设置高亮当前行和当前列
 set cursorline
@@ -140,9 +141,11 @@ let g:multi_cursor_quit_key='<Esc>'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+" 以下三个配置是显示buffer(编辑过的文件)
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+" 显示下面的状态栏
 set laststatus=2
 " let g:airline_theme =  
 
@@ -152,18 +155,29 @@ set laststatus=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeWinPos = "left"
 let NERDTreeWinSize = 25
-" nmap <F3> <ESC>:NERDTreeToggle<RETURN>
-map <C-e> :NERDTreeToggle<CR>
 set t_Co=256
+let NERDTreeShowBookmarks=1
+let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeChDirMode=0
+let NERDTreeQuitOnOpen=0
+let NERDTreeMouseMode=2
+let NERDTreeShowHidden=0
+let NERDTreeKeepTreeInNewTab=1
+let g:nerdtree_tabs_open_on_gui_startup=0
+nn <silent><F2> :exec("NERDTree ".expand('%:h'))<CR>
+map <C-e> :NERDTreeToggle<CR>
+map <leader>e :NERDTreeFind<CR>
+nmap <leader>nt :NERDTreeFind<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " jedi-vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jedi#auto_initialization = 1
-let g:jedi#use_splits_not_buffers = "bottom"
-let g:jedi#popup_select_first = 0
-let g:jedi#completions_enabled = 1
+" let g:jedi#auto_initialization = 1
+" let g:jedi#use_splits_not_buffers = "bottom"
+" let g:jedi#popup_select_first = 0
+" let g:jedi#completions_enabled = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -173,10 +187,24 @@ execute pathogen#infect()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of ctrlp
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ctrlp_working_path_mode = 'ra'
+nnoremap <silent> <D-t> :CtrlP<CR>
+nnoremap <silent> <D-r> :CtrlPMRU<CR>
+let g:ctrlp_custom_ignore = {
+	\ 'dir':  '\.git$\|\.hg$\|\.svn$',
+    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$'
+	\}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " syntastic # https://github.com/scrooloose/syntastic
 " 需要安装 https://github.com/tpope/vim-pathogen
 " 需要安装 sudo pip install flake8 (python的格式检查器)
 "		   sudo apt-get install python-flake8
+"		   建议不要使用，过于格式化，提醒也不人性化
+"		   使用 https://github.com/klen/python-mode.git 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -189,6 +217,14 @@ let g:syntastic_loc_list_height = 5
 let g:syntastic_aggregate_errors = 1
 nnoremap <silent> <C-d> :lclose<CR>
 
+" Pathogen load
+filetype off
+
+call pathogen#infect()
+call pathogen#helptags()
+
+filetype plugin indent on
+syntax on
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vundle
@@ -234,6 +270,8 @@ Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
 Plugin 'https://github.com/davidhalter/jedi-vim.git'
 Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
 Plugin 'https://github.com/flazz/vim-colorschemes.git'
+Plugin 'https://github.com/klen/python-mode.git'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

@@ -30,10 +30,12 @@ vim配置备份，期待慢慢完善。
 
 > vim-colorschemes一大堆主题    https://github.com/flazz/vim-colorschemes.git
 
+> python-mode为python定制的工具     https://github.com/klen/python-mode.git
+
 
 ``````
 一些注意的点
 ``````
 > 1. YouCompleteMe 需要编译，具体可以看官网
-> 2. syntastic 需要添加一些依赖才可以使用pep8的提示，在vimrc里面有写
+> 2. syntastic 需要添加一些依赖才可以使用pep8的提示，在vimrc里面有写(建议不要用里面的python格式检查器)
 > 3. tagbar 需要添加系统依赖, 在vimrc里面有写
