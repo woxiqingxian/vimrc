@@ -8,63 +8,94 @@ set fenc=utf8
 set fencs=utf-8,usc-bom,euc-jp,gb18030,gb2312,cp936,gbk
 set fdm=marker
 
-" 设置语法高亮
-syntax on
-
-" 设置搜索
-set hlsearch
-set incsearch
+" ------设置搜索
+set hlsearch " 高亮搜索项 
+set incsearch " 搜索时自动匹配 
+set ignorecase    " 无视大小写 
+set smartcase     " 如果有大写就区别大小写匹配
 nmap <Esc><Esc> :nohlsearch<CR>
 
-" 以下三个配置配合使用，设置tab和缩进空格数
-set expandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+" ------格式
+set foldmethod=syntax   "代码折叠
+set nowrap        " 取消自动折行
+set number  " 显示行号
+set autoindent  " 继承前一行的缩进方式，特别适合于多行注释
+set tabstop=4     " tab=4空格 
+set softtabstop=4 " 回退可以删除缩进 
+set shiftwidth=4  " 缩进位宽=4个空格位
+set autoindent    " 自动缩进 
+set expandtab     " tab由空格表示
 
-"文件在Vim之外修改过，自动重新读入
-set autoread
-
-"帮助系统设置为中文
-set helplang=cn
-
-"代码折叠
-set foldmethod=syntax
-
-" 不生成swap文件
-setlocal noswapfile
-
-" 显示行号
-set number
-
-" 继承前一行的缩进方式，特别适合于多行注释
-" set autoindent
-
-" 设置高亮当前行和当前列
-set cursorline
-hi CursorLine   cterm=NONE ctermbg=black ctermfg=NONE guibg=NONE guifg=NONE
-" set cursorcolumn
-" hi CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+set nojoinspaces  " 用J合并两行用一个空格隔开
+set splitright    " 用vsplit新建窗口，让新的放右边
+set splitbelow    " 用split新建窗口，让新的放下面
+set iskeyword-=.  " 让'.' 作为单词分割符
+set iskeyword-=#  " 让'#' 作为单词分割符
+set iskeyword-=-  " 让'-' 作为单词分割符
+set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " 空格等无效字符显示
 
 " 单行长度超80个字符提醒 
+"set textwidth=80  " 内容宽度
 :set cc=80
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
 
+" 设置高亮当前行和当前列
+set cursorline " 选中行高亮
+hi CursorLine   cterm=NONE ctermbg=black ctermfg=NONE guibg=NONE guifg=NONE
+" set cursorcolumn
+" hi CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
+
+" 设置u的返回步数限制
+if has('persistent_undo')
+    set undofile               " 开启u回滚文件记录
+    set undolevels=1000         " 最大数量的改变回滚
+    set undoreload=10000        " 最大数量重载可回滚行数
+endif
+
+" 其他设置
+syntax on " 设置语法高亮
+set nocompatible "不要vim模仿vi模式，建议设置，否则会有很多不兼容的问题
+set laststatus=2  " 总是显示状态栏
+set shortmess=atI"  " 关闭欢迎页面
+" set autowrite     " 切换文件自动保存 https://github.com/terryma/vim-multiple-cursors/raw/master/assets/example1.gif?raw=true
+set wildmenu      " 自动补全时的文件菜单
+set wildmode=list:longest,full " 自动补全时，匹配最长子串，列出文件
+set whichwrap=b,s,h,l,<,>,[,]  " 行尾可右移到下行，行首左移到上行,b：退格，s：空格，hl：左右，<>：n/v模式下的左右，[]：i/r模式下的左右
+set scrolljump=5  " 光标离开屏幕范围 
+set scrolloff=3   " 光标移动至少保留行数
+set autoread   "文件在Vim之外修改过，自动重新读入
+set helplang=cn  "帮助系统设置为中文
+set noswapfile   " 不生成swap文件
+set noundofile  " 不生成撤销记录文件
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 自定义快捷键
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 切换vim的tab
 nmap <C-l> gt
 nmap <C-h> gT
 " tab自动换为四个空格
 map <F7> mzgg=G`z<CR>`
 
+" 设置tag和window间快速跳转 
+" let g:easyWindows = 1
+" if exists('g:easyWindows')
+"     " 向上
+"     map <C-J> <C-W>j<C-W>_  
+"     " 向下
+"     map <C-K> <C-W>k<C-W>_
+"     " 向右
+"     map <C-L> <C-W>l<C-W>_
+"     " 向左
+"     map <C-H> <C-W>h<C-W>_
+" endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 模拟windows
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 没sudo却想保存
+cmap w!! w !sudo tee % >/dev/null
+
 " 设置模拟windows的复制粘帖全选
 " vmap <C-c> "+y
 " vmap <C-x> "yd
@@ -85,12 +116,12 @@ set clipboard=unnamedplus
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 主题
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable
-syntax on
-set nu
+" syntax enable
+" syntax on
+" set nu
 set background=dark
-set t_Co=256
-let g:solarized_termcolors=256
+" set t_Co=256
+" let g:solarized_termcolors=256
 " colorscheme darkblue2
 " colorscheme kalisi
 " colorscheme solarized
@@ -115,10 +146,10 @@ nmap <F4> <Esc>:0<ESC>:call Signature()<CR><Esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-indent-guides 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:indent_guides_start_level = 2
-let g:indent_guides_start_size = 1
-let g:indent_guides_guide_size = 1
-let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_start_level = 2
+" let g:indent_guides_start_size = 1
+" let g:indent_guides_guide_size = 1
+" let g:indent_guides_enable_on_vim_startup = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -131,11 +162,11 @@ nmap <F8> :TagbarToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of multi_cursor
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-x>'
-let g:multi_cursor_prev_key='<C-z>'
-let g:multi_cursor_skip_key='<C-c>'
-let g:multi_cursor_quit_key='<Esc>'
+" let g:multi_cursor_use_default_mapping=0
+" let g:multi_cursor_next_key='<C-x>'
+" let g:multi_cursor_prev_key='<C-z>'
+" let g:multi_cursor_skip_key='<C-c>'
+" let g:multi_cursor_quit_key='<Esc>'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -147,7 +178,7 @@ let g:multi_cursor_quit_key='<Esc>'
 " let g:airline#extensions#tabline#left_alt_sep = '|'
 " 显示下面的状态栏
 set laststatus=2
-" let g:airline_theme =  
+let g:airline_theme = "dark"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -183,7 +214,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeT
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of pathogen
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-execute pathogen#infect()
+" execute pathogen#infect()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -206,25 +237,33 @@ let g:ctrlp_custom_ignore = {
 "		   建议不要使用，过于格式化，提醒也不人性化
 "		   使用 https://github.com/klen/python-mode.git 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_loc_list_height = 5
-let g:syntastic_aggregate_errors = 1
-nnoremap <silent> <C-d> :lclose<CR>
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_loc_list_height = 5
+" let g:syntastic_aggregate_errors = 1
+" nnoremap <silent> <C-d> :lclose<CR>
 
 " Pathogen load
-filetype off
+" filetype off
+" 
+" call pathogen#infect()
+" call pathogen#helptags()
+" 
+" filetype plugin indent on
+" syntax on
 
-call pathogen#infect()
-call pathogen#helptags()
 
-filetype plugin indent on
-syntax on
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of python-mode
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:pymode_rope = 0
+
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vundle
@@ -261,15 +300,15 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 Plugin 'https://github.com/Valloric/YouCompleteMe.git'
 Plugin 'https://github.com/scrooloose/nerdtree.git'
-Plugin 'https://github.com/scrooloose/syntastic.git'
+" Plugin 'https://github.com/scrooloose/syntastic.git'
 Plugin 'https://github.com/kien/ctrlp.vim.git'
-Plugin 'https://github.com/altercation/vim-colors-solarized.git'
+" Plugin 'https://github.com/altercation/vim-colors-solarized.git'
 Plugin 'https://github.com/majutsushi/tagbar.git'
 Plugin 'https://github.com/bling/vim-airline.git'
-Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
-Plugin 'https://github.com/davidhalter/jedi-vim.git'
-Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
-Plugin 'https://github.com/flazz/vim-colorschemes.git'
+" Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
+" Plugin 'https://github.com/davidhalter/jedi-vim.git'
+" Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
+" Plugin 'https://github.com/flazz/vim-colorschemes.git'
 Plugin 'https://github.com/klen/python-mode.git'
 
 
