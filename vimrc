@@ -1,6 +1,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 基本配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " 设置文件编码
 set ff=unix
 set encoding=utf-8
@@ -13,6 +14,7 @@ set hlsearch " 高亮搜索项
 set incsearch " 搜索时自动匹配 
 set ignorecase    " 无视大小写 
 set smartcase     " 如果有大写就区别大小写匹配
+" set nowrapscan " 禁止在搜索到文件两端时重新搜索
 nmap <Esc><Esc> :nohlsearch<CR>
 
 " ------格式
@@ -63,12 +65,14 @@ set shortmess=atI"  " 关闭欢迎页面
 set wildmenu      " 自动补全时的文件菜单
 set wildmode=list:longest,full " 自动补全时，匹配最长子串，列出文件
 set whichwrap=b,s,h,l,<,>,[,]  " 行尾可右移到下行，行首左移到上行,b：退格，s：空格，hl：左右，<>：n/v模式下的左右，[]：i/r模式下的左右
-set scrolljump=5  " 光标离开屏幕范围 
-set scrolloff=3   " 光标移动至少保留行数
+set scrolljump=10  " 光标离开屏幕范围 
+set scrolloff=5   " 光标移动至少保留行数
 set autoread   "文件在Vim之外修改过，自动重新读入
 set helplang=cn  "帮助系统设置为中文
 set noswapfile   " 不生成swap文件
 set noundofile  " 不生成撤销记录文件
+set backspace=2   " 解决插入模式下delete/backspce键失效问题
+set mouse=a   " 支持鼠标滚动
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -108,23 +112,27 @@ nmap <C-a> ggvG$
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim与系统公用剪切板
+" vim与系统公用剪切板(兼容mac和liunx)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set clipboard=unnamedplus
+if has('clipboard')
+    if has('unnamedplus')
+        set clipboard=unnamedplus
+    else
+        set clipboard=unnamed
+    endif
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 主题
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" syntax enable
+syntax enable
 " syntax on
 " set nu
 set background=dark
-" set t_Co=256
-" let g:solarized_termcolors=256
 " colorscheme darkblue2
 " colorscheme kalisi
-" colorscheme solarized
+colorscheme solarized
 " colorscheme codeschool 
 " colorscheme dracula
 
@@ -156,7 +164,7 @@ nmap <F4> <Esc>:0<ESC>:call Signature()<CR><Esc>
 " setting of tagbar
 " 需要安装 sudo apt-get install exuberant-ctags 支持
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
+" nmap <F8> :TagbarToggle<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,7 +196,8 @@ let NERDTreeWinPos = "left"
 let NERDTreeWinSize = 25
 set t_Co=256
 let NERDTreeShowBookmarks=1
-let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+" 那些不显示
+let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node_modules']  
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=0
 let NERDTreeMouseMode=2
@@ -224,7 +233,7 @@ let g:ctrlp_working_path_mode = 'ra'
 nnoremap <silent> <D-t> :CtrlP<CR>
 nnoremap <silent> <D-r> :CtrlPMRU<CR>
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\.git$\|\.hg$\|\.svn$',
+	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$'
 	\}
 
@@ -263,6 +272,11 @@ let g:ctrlp_custom_ignore = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_rope = 0
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of vim-jsx
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:jsx_ext_required = 0
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -298,18 +312,23 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Avoid a name conflict with L9
 " Plugin 'user/L9', {'name': 'newL9'}
 
-Plugin 'https://github.com/Valloric/YouCompleteMe.git'
 Plugin 'https://github.com/scrooloose/nerdtree.git'
 " Plugin 'https://github.com/scrooloose/syntastic.git'
 Plugin 'https://github.com/kien/ctrlp.vim.git'
-" Plugin 'https://github.com/altercation/vim-colors-solarized.git'
 Plugin 'https://github.com/majutsushi/tagbar.git'
 Plugin 'https://github.com/bling/vim-airline.git'
 " Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
 " Plugin 'https://github.com/davidhalter/jedi-vim.git'
 " Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
-" Plugin 'https://github.com/flazz/vim-colorschemes.git'
+Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
 Plugin 'https://github.com/klen/python-mode.git'
+Plugin 'http://github.com/Valloric/YouCompleteMe.git'
+Plugin 'https://github.com/moll/vim-node.git'
+Plugin 'https://github.com/pangloss/vim-javascript.git'
+Plugin 'https://github.com/jelera/vim-javascript-syntax.git'  " 增加JavaScript的高亮显示
+Plugin 'marijnh/tern_for_vim'  " 配合YCM实现JavaScript补全，这是重点
+Plugin 'posva/vim-vue'  " vue高亮
+Plugin 'mxw/vim-jsx' " jsx语法高亮
 
 
 " All of your Plugins must be added before the following line
