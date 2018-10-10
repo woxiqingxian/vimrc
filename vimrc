@@ -18,7 +18,7 @@ set smartcase     " 如果有大写就区别大小写匹配
 nmap <Esc><Esc> :nohlsearch<CR>
 
 " ------格式
-set foldmethod=syntax   "代码折叠
+set foldmethod=indent  "syntax  代码折叠
 set nowrap        " 取消自动折行
 set number  " 显示行号
 set autoindent  " 继承前一行的缩进方式，特别适合于多行注释
@@ -57,6 +57,7 @@ if has('persistent_undo')
 endif
 
 " 其他设置
+syntax enable
 syntax on " 设置语法高亮
 set nocompatible "不要vim模仿vi模式，建议设置，否则会有很多不兼容的问题
 set laststatus=2  " 总是显示状态栏
@@ -126,9 +127,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 主题
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable
-" syntax on
-" set nu
 set background=dark
 " colorscheme darkblue2
 " colorscheme kalisi
@@ -142,7 +140,7 @@ colorscheme solarized
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function Signature()
 	call setline(1,"/*")
-	call append(line(". "),"*  Author: woxiqingxian@qq.com")
+	call append(line(". "),"*  Author: woxiqingxian@gmail.com")
 	call append(line(". ")+1,"*  Time: ".strftime("%c"))
 	call append(line(".")+2,"*  File: ".expand("%"))
 	call append(line(".")+3,"*  Desc :")
@@ -233,7 +231,7 @@ let g:ctrlp_working_path_mode = 'ra'
 nnoremap <silent> <D-t> :CtrlP<CR>
 nnoremap <silent> <D-r> :CtrlPMRU<CR>
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$',
+	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|bookdata$',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$'
 	\}
 
@@ -272,11 +270,17 @@ let g:ctrlp_custom_ignore = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_rope = 0
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vim-jsx
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:jsx_ext_required = 0
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of SimpylFold
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:SimpylFold_docstring_preview=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -329,6 +333,10 @@ Plugin 'https://github.com/jelera/vim-javascript-syntax.git'  " 增加JavaScript
 Plugin 'marijnh/tern_for_vim'  " 配合YCM实现JavaScript补全，这是重点
 Plugin 'posva/vim-vue'  " vue高亮
 Plugin 'mxw/vim-jsx' " jsx语法高亮
+" Plugin 'tomlion/vim-solidity'  " solidity 语言
+" Plugin 'johngrib/vim-game-code-break'  " 消除游戏
+" Plugin 'chemzqm/wxapp.vim'  " 微信开发工具vim
+Plugin 'tmhedberg/SimpylFold'  " 用于配合foldmethod的代码折叠
 
 
 " All of your Plugins must be added before the following line
