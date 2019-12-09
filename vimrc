@@ -133,6 +133,8 @@ set background=dark
 colorscheme solarized
 " colorscheme codeschool 
 " colorscheme dracula
+" colorscheme janah
+" colorscheme darkocean
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -148,14 +150,6 @@ function Signature()
 endf
 nmap <F4> <Esc>:0<ESC>:call Signature()<CR><Esc>
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim-indent-guides 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:indent_guides_start_level = 2
-" let g:indent_guides_start_size = 1
-" let g:indent_guides_guide_size = 1
-" let g:indent_guides_enable_on_vim_startup = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -195,7 +189,7 @@ let NERDTreeWinSize = 25
 set t_Co=256
 let NERDTreeShowBookmarks=1
 " 那些不显示
-let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node_modules']  
+let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node_modules', '__pycache__']  
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=0
 let NERDTreeMouseMode=2
@@ -231,8 +225,8 @@ let g:ctrlp_working_path_mode = 'ra'
 nnoremap <silent> <D-t> :CtrlP<CR>
 nnoremap <silent> <D-r> :CtrlPMRU<CR>
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|bookdata$',
-    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$'
+	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|bookdata$\|__pycache__$',
+    \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$\|\.jpg$'
 	\}
 
 
@@ -244,13 +238,13 @@ let g:ctrlp_custom_ignore = {
 "		   建议不要使用，过于格式化，提醒也不人性化
 "		   使用 https://github.com/klen/python-mode.git 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 " let g:syntastic_loc_list_height = 5
 " let g:syntastic_aggregate_errors = 1
 " nnoremap <silent> <C-d> :lclose<CR>
@@ -263,6 +257,7 @@ let g:ctrlp_custom_ignore = {
 " 
 " filetype plugin indent on
 " syntax on
+"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -284,6 +279,43 @@ let g:SimpylFold_docstring_preview=1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of rainbow_parentheses
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
+let g:rbpt_max = 16
+let g:rbpt_loadcmd_toggle = 0
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of indentLine
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:indentLine_setColors = 1
+let g:indentLine_char = "┆"
+"let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vundle
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible              " be iMproved, required
@@ -301,29 +333,28 @@ Plugin 'gmarik/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'  " 将git集合到vim
 " plugin from http://vim-scripts.org/vim/scripts.html
-Plugin 'L9'
+" Plugin 'L9'
 " Git plugin not hosted on GitHub
 " Plugin 'git://git.wincent.com/command-t.git'
-Plugin 'https://github.com/wincent/command-t.git'
+" Plugin 'https://github.com/wincent/command-t.git'
 " Plugin '/home/eddie/Downloads/command-t'
 " git repos on your local machine (i.e. when working on your own plugin)
 " Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
 " Avoid a name conflict with L9
 " Plugin 'user/L9', {'name': 'newL9'}
 
 Plugin 'https://github.com/scrooloose/nerdtree.git'
-" Plugin 'https://github.com/scrooloose/syntastic.git'
+Plugin 'https://github.com/scrooloose/syntastic.git'
 Plugin 'https://github.com/kien/ctrlp.vim.git'
 Plugin 'https://github.com/majutsushi/tagbar.git'
 Plugin 'https://github.com/bling/vim-airline.git'
 " Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
 " Plugin 'https://github.com/davidhalter/jedi-vim.git'
-" Plugin 'https://github.com/nathanaelkane/vim-indent-guides.git'
 Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
 Plugin 'https://github.com/klen/python-mode.git'
 Plugin 'http://github.com/Valloric/YouCompleteMe.git'
@@ -334,10 +365,11 @@ Plugin 'marijnh/tern_for_vim'  " 配合YCM实现JavaScript补全，这是重点
 Plugin 'posva/vim-vue'  " vue高亮
 Plugin 'mxw/vim-jsx' " jsx语法高亮
 " Plugin 'tomlion/vim-solidity'  " solidity 语言
-" Plugin 'johngrib/vim-game-code-break'  " 消除游戏
-" Plugin 'chemzqm/wxapp.vim'  " 微信开发工具vim
 Plugin 'tmhedberg/SimpylFold'  " 用于配合foldmethod的代码折叠
-
+Plugin 'chr4/nginx.vim'  "nginx conf配置文件高亮
+Plugin 'kien/rainbow_parentheses.vim'  "多色彩括号匹配插件
+Plugin 'Yggdroot/indentLine'  " 缩进指示
+Plugin 'scrooloose/nerdcommenter'  " 快速注释
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
