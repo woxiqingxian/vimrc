@@ -202,6 +202,22 @@ map <leader>e :NERDTreeFind<CR>
 nmap <leader>nt :NERDTreeFind<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of nerdtree-git-plugin
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:NERDTreeShowIgnoredStatus = 1
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " jedi-vim
@@ -316,6 +332,23 @@ let g:indentLine_char = "┆"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of vim-smooth-scroll
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 5)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 5)<CR>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of fatih/vim-go
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:go_fmt_experimental = 1  " 保存格式化的时候不要折叠
+let g:godef_split = 2 "左右打开新窗口的时候
+let g:godef_same_file_in_same_window = 1 "函数在同一个文件中时不需要打开新窗口
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vundle
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible              " be iMproved, required
@@ -349,6 +382,7 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
 " Plugin 'user/L9', {'name': 'newL9'}
 
 Plugin 'https://github.com/scrooloose/nerdtree.git'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'https://github.com/scrooloose/syntastic.git'
 Plugin 'https://github.com/kien/ctrlp.vim.git'
 Plugin 'https://github.com/majutsushi/tagbar.git'
@@ -370,6 +404,10 @@ Plugin 'chr4/nginx.vim'  "nginx conf配置文件高亮
 Plugin 'kien/rainbow_parentheses.vim'  "多色彩括号匹配插件
 Plugin 'Yggdroot/indentLine'  " 缩进指示
 Plugin 'scrooloose/nerdcommenter'  " 快速注释
+Plugin 'terryma/vim-smooth-scroll'  " 翻页更加顺滑
+Plugin 'fatih/vim-go'  " go工具
+
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
