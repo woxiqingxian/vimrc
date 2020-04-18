@@ -1,3 +1,79 @@
+ 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of vundle
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 非兼容vi模式。去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
+set nocompatible              " be iMproved, required
+filetype off                  " required
+let $GIT_SSL_NO_VERIFY = 'true'
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+" call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" Plugin 'https://github.com/wincent/command-t.git'
+" Plugin '/home/eddie/Downloads/command-t'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
+" Avoid a name conflict with L9
+" Plugin 'user/L9', {'name': 'newL9'}
+
+Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
+Plugin 'https://github.com/preservim/nerdtree.git'  " 树形目录结构
+Plugin 'https://github.com/jistr/vim-nerdtree-tabs.git'
+Plugin 'https://github.com/vim-airline/vim-airline.git'
+Plugin 'https://github.com/kien/ctrlp.vim.git'
+Plugin 'https://github.com/vim-syntastic/syntastic.git'
+" Plugin 'https://github.com/dense-analysis/ale.git'
+Plugin 'https://github.com/majutsushi/tagbar.git'
+Plugin 'https://github.com/python-mode/python-mode.git'
+"Plugin 'http://github.com/Valloric/YouCompleteMe.git'
+Plugin 'https://gitee.com/YouCompleteMe/YouCompleteMe.git'  " 使用镜像
+Plugin 'https://github.com/moll/vim-node.git'
+Plugin 'https://github.com/pangloss/vim-javascript.git'  " JavaScript高亮
+Plugin 'https://github.com/ternjs/tern_for_vim.git'  " 配合YCM实现JavaScript补全，这是重点
+Plugin 'https://github.com/posva/vim-vue.git'  " vue高亮
+Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod的代码折叠
+Plugin 'https://github.com/chr4/nginx.vim.git'  "nginx conf配置文件高亮
+Plugin 'https://github.com/kien/rainbow_parentheses.vim.git'  "多色彩括号匹配插件
+Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
+Plugin 'https://github.com/preservim/nerdcommenter.git'  " 快速注释
+Plugin 'https://github.com/terryma/vim-smooth-scroll.git'  " 翻页更加顺滑
+Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 基本配置
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -14,8 +90,8 @@ set hlsearch " 高亮搜索项
 set incsearch " 搜索时自动匹配 
 set ignorecase    " 无视大小写 
 set smartcase     " 如果有大写就区别大小写匹配
-" set nowrapscan " 禁止在搜索到文件两端时重新搜索
-nmap <Esc><Esc> :nohlsearch<CR>
+set nowrapscan " 禁止在搜索到文件两端时重新搜索
+nmap <Esc><Esc> :nohlsearch<CR>  " ESC取消搜索高亮
 
 " ------格式
 set foldmethod=indent  "syntax  代码折叠
@@ -36,10 +112,23 @@ set iskeyword-=#  " 让'#' 作为单词分割符
 set iskeyword-=-  " 让'-' 作为单词分割符
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " 空格等无效字符显示
 
+" 检测文件类型
+filetype on
+" 针对不同的文件类型采用不同的缩进格式
+filetype indent on
+" 允许插件
+filetype plugin on
+" 启动自动补全
+filetype plugin indent on
+
+" 修改leader键
+let mapleader = ','
+let g:mapleader = ','
+
 " 单行长度超80个字符提醒 
-"set textwidth=80  " 内容宽度
-:set cc=80
-highlight ColorColumn ctermbg=235 guibg=#2c2d27
+" set textwidth=80  " 内容宽度
+" :set cc=80
+" highlight ColorColumn ctermbg=235 guibg=#2c2d27
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
 
@@ -55,6 +144,10 @@ if has('persistent_undo')
     set undolevels=1000         " 最大数量的改变回滚
     set undoreload=10000        " 最大数量重载可回滚行数
 endif
+
+" 调整缩进后自动选中，方便再次操作
+vnoremap < <gv
+vnoremap > >gv
 
 " 其他设置
 syntax enable
@@ -76,14 +169,13 @@ set backspace=2   " 解决插入模式下delete/backspce键失效问题
 set mouse=a   " 支持鼠标滚动
 
 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 自定义快捷键
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 切换vim的tab
 nmap <C-l> gt
 nmap <C-h> gT
-" tab自动换为四个空格
-map <F7> mzgg=G`z<CR>`
 
 " 设置tag和window间快速跳转 
 " let g:easyWindows = 1
@@ -110,6 +202,22 @@ nmap <C-a> ggvG$
 " 模仿MS Windows中的保存命令: Ctrl+S
 " imap <C-s> <Esc>:wa<cr>i<Right>
 " nmap <C-s> :wa<cr>
+
+" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
+" set relativenumber number
+" au FocusLost * :set norelativenumber number
+" au FocusGained * :set relativenumber
+" " 插入模式下用绝对行号, 普通模式下用相对
+" autocmd InsertEnter * :set norelativenumber number
+" autocmd InsertLeave * :set relativenumber
+" function! NumberToggle()
+"   if(&relativenumber == 1)
+"     set norelativenumber number
+"   else
+"     set relativenumber
+"   endif
+" endfunc
+" nnoremap <C-n> :call NumberToggle()<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -154,19 +262,10 @@ nmap <F4> <Esc>:0<ESC>:call Signature()<CR><Esc>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of tagbar
-" 需要安装 sudo apt-get install exuberant-ctags 支持
+" ubuntu: sudo apt-get install exuberant-ctags 支持
+" mac: brew install ctags
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" nmap <F8> :TagbarToggle<CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of multi_cursor
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:multi_cursor_use_default_mapping=0
-" let g:multi_cursor_next_key='<C-x>'
-" let g:multi_cursor_prev_key='<C-z>'
-" let g:multi_cursor_skip_key='<C-c>'
-" let g:multi_cursor_quit_key='<Esc>'
+nmap <F8> :TagbarToggle<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -185,53 +284,33 @@ let g:airline_theme = "dark"
 " nerdtree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeWinPos = "left"
-let NERDTreeWinSize = 25
+let NERDTreeWinSize = 30
+let NERDTreeHighlightCursorline=1
 set t_Co=256
 let NERDTreeShowBookmarks=1
 " 那些不显示
-let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', 'node_modules', '__pycache__']  
+let NERDTreeIgnore=[
+    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', 
+    \ '\.svn', '\.bzr', 'node_modules', '__pycache__'
+    \]  
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=0
 let NERDTreeMouseMode=2
 let NERDTreeShowHidden=0
-let NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
-nn <silent><F2> :exec("NERDTree ".expand('%:h'))<CR>
-map <C-e> :NERDTreeToggle<CR>
-map <leader>e :NERDTreeFind<CR>
-nmap <leader>nt :NERDTreeFind<CR>
+" map <C-e> :NERDTreeToggle<CR>
+" map <C-e> :NERDTreeFocus<CR> 
+map <Leader><C-e> :NERDTreeClose<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of nerdtree-git-plugin
+" vim-nerdtree-tabs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeShowIgnoredStatus = 1
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" jedi-vim
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let g:jedi#auto_initialization = 1
-" let g:jedi#use_splits_not_buffers = "bottom"
-" let g:jedi#popup_select_first = 0
-" let g:jedi#completions_enabled = 1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of pathogen
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" execute pathogen#infect()
+let g:nerdtree_tabs_open_on_console_startup=0
+let g:nerdtree_tabs_autofind=1
+let g:nerdtree_tabs_focus_on_files=1
+" map <C-e> :NERDTreeTabsToggle<CR>
+map <C-e> :NERDTreeTabsOpen<CR> 
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -248,11 +327,6 @@ let g:ctrlp_custom_ignore = {
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " syntastic # https://github.com/scrooloose/syntastic
-" 需要安装 https://github.com/tpope/vim-pathogen
-" 需要安装 sudo pip install flake8 (python的格式检查器)
-"		   sudo apt-get install python-flake8
-"		   建议不要使用，过于格式化，提醒也不人性化
-"		   使用 https://github.com/klen/python-mode.git 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -261,31 +335,17 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_ignore_files = ['\.py$']  " 不校验py避免和python-mode冲突
 " let g:syntastic_loc_list_height = 5
 " let g:syntastic_aggregate_errors = 1
 " nnoremap <silent> <C-d> :lclose<CR>
 
-" Pathogen load
-" filetype off
-" 
-" call pathogen#infect()
-" call pathogen#helptags()
-" 
-" filetype plugin indent on
-" syntax on
-"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of python-mode
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_rope = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of vim-jsx
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:jsx_ext_required = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -334,93 +394,57 @@ let g:indentLine_char = "┆"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vim-smooth-scroll
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Distance: This is the total number of lines you want to scroll
+" Duration: This is how long you want each frame of the scrolling animation to last in milliseconds. Each frame will take at least this amount of time. It could take more if Vim's scrolling itself is slow
+" Speed: This is how many lines to scroll during each frame of the scrolling animation
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 5)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 5)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of fatih/vim-go
+" setting of ack.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:go_fmt_experimental = 1  " 保存格式化的时候不要折叠
-let g:godef_split = 2 "左右打开新窗口的时候
-let g:godef_same_file_in_same_window = 1 "函数在同一个文件中时不需要打开新窗口
+" 使用 leader + a search
+cnoreabbrev Ack Ack!
+nnoremap <Leader>a :Ack!<Space>
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep --nogroup --column'
+endif
+" 高亮搜索关键词
+let g:ackhighlight = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of vundle
+" setting of vim-javascript
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
-let $GIT_SSL_NO_VERIFY = 'true'
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'  " 将git集合到vim
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" Plugin 'https://github.com/wincent/command-t.git'
-" Plugin '/home/eddie/Downloads/command-t'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
-Plugin 'https://github.com/scrooloose/nerdtree.git'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'https://github.com/scrooloose/syntastic.git'
-Plugin 'https://github.com/kien/ctrlp.vim.git'
-Plugin 'https://github.com/majutsushi/tagbar.git'
-Plugin 'https://github.com/bling/vim-airline.git'
-" Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
-" Plugin 'https://github.com/davidhalter/jedi-vim.git'
-Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
-Plugin 'https://github.com/klen/python-mode.git'
-Plugin 'http://github.com/Valloric/YouCompleteMe.git'
-Plugin 'https://github.com/moll/vim-node.git'
-Plugin 'https://github.com/pangloss/vim-javascript.git'
-Plugin 'https://github.com/jelera/vim-javascript-syntax.git'  " 增加JavaScript的高亮显示
-Plugin 'marijnh/tern_for_vim'  " 配合YCM实现JavaScript补全，这是重点
-Plugin 'posva/vim-vue'  " vue高亮
-Plugin 'mxw/vim-jsx' " jsx语法高亮
-" Plugin 'tomlion/vim-solidity'  " solidity 语言
-Plugin 'tmhedberg/SimpylFold'  " 用于配合foldmethod的代码折叠
-Plugin 'chr4/nginx.vim'  "nginx conf配置文件高亮
-Plugin 'kien/rainbow_parentheses.vim'  "多色彩括号匹配插件
-Plugin 'Yggdroot/indentLine'  " 缩进指示
-Plugin 'scrooloose/nerdcommenter'  " 快速注释
-Plugin 'terryma/vim-smooth-scroll'  " 翻页更加顺滑
-Plugin 'fatih/vim-go'  " go工具
+let javascript_enable_domhtmlcss = 1
 
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of nerdcommenter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>cc " 加注释
+map <leader>cu " 解开注释
+map <leader>c<space>  " 加上/解开注释, 智能判断
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " setting of ale
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let g:ale_sign_error = '>>'
+" let g:ale_sign_warning = '--'
+" 
+" let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+" let g:ale_echo_msg_error_str = 'E'
+" let g:ale_echo_msg_warning_str = 'W'
+" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" " let g:ale_set_highlights = 1
+" 
+" " Write this in your vimrc file
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_lint_on_insert_leave = 0
+" " You can disable this option too
+" " if you don't want linters to run on opening a file
+" let g:ale_lint_on_enter = 0
