@@ -55,6 +55,9 @@ Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
 Plugin 'https://github.com/preservim/nerdcommenter.git'  " 快速注释
 Plugin 'https://github.com/terryma/vim-smooth-scroll.git'  " 翻页更加顺滑
 Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
+" Plugin 'https://github.com/xolox/vim-lua-ftplugin'  " lua插件
+" Plugin 'https://github.com/xolox/vim-misc'  " lua插件 依赖
+
 
 
 " All of your Plugins must be added before the following line
@@ -90,7 +93,7 @@ set hlsearch " 高亮搜索项
 set incsearch " 搜索时自动匹配 
 set ignorecase    " 无视大小写 
 set smartcase     " 如果有大写就区别大小写匹配
-set nowrapscan " 禁止在搜索到文件两端时重新搜索
+" set nowrapscan "禁止在搜索到文件两端时重新搜索
 nmap <Esc><Esc> :nohlsearch<CR>  " ESC取消搜索高亮
 
 " ------格式
@@ -127,7 +130,7 @@ let g:mapleader = ','
 
 " 单行长度超80个字符提醒 
 " set textwidth=80  " 内容宽度
-" :set cc=80
+:set cc=80
 " highlight ColorColumn ctermbg=235 guibg=#2c2d27
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
@@ -245,18 +248,18 @@ colorscheme solarized
 " colorscheme darkocean
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 个人签名
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function Signature()
-	call setline(1,"/*")
-	call append(line(". "),"*  Author: woxiqingxian@gmail.com")
-	call append(line(". ")+1,"*  Time: ".strftime("%c"))
-	call append(line(".")+2,"*  File: ".expand("%"))
-	call append(line(".")+3,"*  Desc :")
-	call append(line(".")+4,"*/")
-endf
-nmap <F4> <Esc>:0<ESC>:call Signature()<CR><Esc>
+"  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  " 个人签名
+"  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  function Signature()
+"  	call setline(1,'/*')
+"  	call append(line('. '),'*  Author: woxiqingxian@gmail.com')
+"  	call append(line('. ')+1,'*  Time: '.strftime('%c'))
+"  	call append(line('.')+2,'*  File: '.expand('%'))
+"  	call append(line('.')+3,'*  Desc :')
+"  	call append(line('.')+4,'*/')
+"  endf
+"  nmap <F4> <Esc>:0<ESC>:call Signature()<CR><Esc>
 
 
 
@@ -284,7 +287,7 @@ let g:airline_theme = "dark"
 " nerdtree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeWinPos = "left"
-let NERDTreeWinSize = 30
+let NERDTreeWinSize = 25
 let NERDTreeHighlightCursorline=1
 set t_Co=256
 let NERDTreeShowBookmarks=1
@@ -414,7 +417,6 @@ if executable('ag')
 endif
 " 高亮搜索关键词
 let g:ackhighlight = 1
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vim-javascript
