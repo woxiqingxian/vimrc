@@ -36,19 +36,18 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
 Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
 Plugin 'https://github.com/preservim/nerdtree.git'  " 树形目录结构
 Plugin 'https://github.com/jistr/vim-nerdtree-tabs.git'
-Plugin 'https://github.com/vim-airline/vim-airline.git'
-Plugin 'https://github.com/kien/ctrlp.vim.git'
-Plugin 'https://github.com/vim-syntastic/syntastic.git'
+Plugin 'https://github.com/vim-airline/vim-airline.git'  " 下面的状态栏
+Plugin 'https://github.com/kien/ctrlp.vim.git'  " 查询文件
+Plugin 'https://github.com/vim-syntastic/syntastic.git'  " 代码语法检查
 " Plugin 'https://github.com/dense-analysis/ale.git'
-Plugin 'https://github.com/majutsushi/tagbar.git'
+Plugin 'https://github.com/majutsushi/tagbar.git'  " 函数结构
 Plugin 'https://github.com/python-mode/python-mode.git'
 Plugin 'https://github.com/Valloric/YouCompleteMe.git'
-Plugin 'https://github.com/moll/vim-node.git'
 Plugin 'https://github.com/pangloss/vim-javascript.git'  " JavaScript高亮
 Plugin 'https://github.com/ternjs/tern_for_vim.git'  " 配合YCM实现JavaScript补全，这是重点
 Plugin 'https://github.com/posva/vim-vue.git'  " vue高亮
 Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod=indent 对python 的代码折叠
-Plugin 'https://github.com/chr4/nginx.vim.git'  "nginx conf配置文件高亮
+" Plugin 'https://github.com/chr4/nginx.vim.git'  "nginx conf配置文件高亮
 Plugin 'https://github.com/kien/rainbow_parentheses.vim.git'  "多色彩括号匹配插件
 Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
 " Plugin 'https://github.com/preservim/nerdcommenter.git'  " 快速注释
