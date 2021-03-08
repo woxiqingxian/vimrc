@@ -42,17 +42,16 @@ Plugin 'https://github.com/vim-syntastic/syntastic.git'
 " Plugin 'https://github.com/dense-analysis/ale.git'
 Plugin 'https://github.com/majutsushi/tagbar.git'
 Plugin 'https://github.com/python-mode/python-mode.git'
-"Plugin 'http://github.com/Valloric/YouCompleteMe.git'
-Plugin 'https://gitee.com/YouCompleteMe/YouCompleteMe.git'  " 使用镜像
+Plugin 'https://github.com/Valloric/YouCompleteMe.git'
 Plugin 'https://github.com/moll/vim-node.git'
 Plugin 'https://github.com/pangloss/vim-javascript.git'  " JavaScript高亮
 Plugin 'https://github.com/ternjs/tern_for_vim.git'  " 配合YCM实现JavaScript补全，这是重点
 Plugin 'https://github.com/posva/vim-vue.git'  " vue高亮
-Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod的代码折叠
+Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod=indent 对python 的代码折叠
 Plugin 'https://github.com/chr4/nginx.vim.git'  "nginx conf配置文件高亮
 Plugin 'https://github.com/kien/rainbow_parentheses.vim.git'  "多色彩括号匹配插件
 Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
-Plugin 'https://github.com/preservim/nerdcommenter.git'  " 快速注释
+" Plugin 'https://github.com/preservim/nerdcommenter.git'  " 快速注释
 Plugin 'https://github.com/terryma/vim-smooth-scroll.git'  " 翻页更加顺滑
 Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
 " Plugin 'https://github.com/xolox/vim-lua-ftplugin'  " lua插件
@@ -97,7 +96,13 @@ set smartcase     " 如果有大写就区别大小写匹配
 nmap <Esc><Esc> :nohlsearch<CR>  " ESC取消搜索高亮
 
 " ------格式
-set foldmethod=indent  "syntax  代码折叠
+" manual 手工定义折叠         
+" indent 更多的缩进表示更高级别的折叠         
+" expr 用表达式来定义折叠         
+" syntax 用语法高亮来定义折叠         
+" diff 对没有更改的文本进行折叠         
+" marker 对文中的标志折叠
+set foldmethod=indent
 set nowrap        " 取消自动折行
 set number  " 显示行号
 set autoindent  " 继承前一行的缩进方式，特别适合于多行注释
@@ -292,14 +297,14 @@ let NERDTreeHighlightCursorline=1
 set t_Co=256
 let NERDTreeShowBookmarks=1
 " 那些不显示
+let NERDTreeShowHidden=1
 let NERDTreeIgnore=[
-    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', 
+    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '^\.git$', '\.hg', 
     \ '\.svn', '\.bzr', 'node_modules', '__pycache__'
     \]  
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=0
 let NERDTreeMouseMode=2
-let NERDTreeShowHidden=0
 let g:nerdtree_tabs_open_on_gui_startup=0
 " map <C-e> :NERDTreeToggle<CR>
 " map <C-e> :NERDTreeFocus<CR> 
@@ -427,9 +432,9 @@ let javascript_enable_domhtmlcss = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of nerdcommenter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>cc " 加注释
-map <leader>cu " 解开注释
-map <leader>c<space>  " 加上/解开注释, 智能判断
+" map <leader>cc " 加注释
+" map <leader>cu " 解开注释
+" map <leader>c<space>  " 加上/解开注释, 智能判断
 
 
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
