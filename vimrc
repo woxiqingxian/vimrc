@@ -29,33 +29,31 @@ Plugin 'gmarik/Vundle.vim'
 " Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
 " Avoid a name conflict with L9
 " Plugin 'user/L9', {'name': 'newL9'}
 
-Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
+" Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
 Plugin 'https://github.com/preservim/nerdtree.git'  " 树形目录结构
 Plugin 'https://github.com/jistr/vim-nerdtree-tabs.git'
 Plugin 'https://github.com/vim-airline/vim-airline.git'  " 下面的状态栏
 Plugin 'https://github.com/kien/ctrlp.vim.git'  " 查询文件
 Plugin 'https://github.com/vim-syntastic/syntastic.git'  " 代码语法检查
-" Plugin 'https://github.com/dense-analysis/ale.git'
-Plugin 'https://github.com/majutsushi/tagbar.git'  " 函数结构
+" Plugin 'https://github.com/dense-analysis/ale.git'  " 代码语法检查(异步)
+" Plugin 'https://github.com/majutsushi/tagbar.git'  " 函数结构
 Plugin 'https://github.com/python-mode/python-mode.git'
 Plugin 'https://github.com/Valloric/YouCompleteMe.git'
-Plugin 'https://github.com/pangloss/vim-javascript.git'  " JavaScript高亮
-Plugin 'https://github.com/ternjs/tern_for_vim.git'  " 配合YCM实现JavaScript补全，这是重点
+" Plugin 'https://github.com/pangloss/vim-javascript.git'  " JavaScript高亮
+" Plugin 'https://github.com/ternjs/tern_for_vim.git'  " 配合YCM实现JavaScript补全，这是重点
 Plugin 'https://github.com/posva/vim-vue.git'  " vue高亮
-Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod=indent 对python 的代码折叠
+Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod=indent 对python 的代码折叠优化
 " Plugin 'https://github.com/chr4/nginx.vim.git'  "nginx conf配置文件高亮
 Plugin 'https://github.com/kien/rainbow_parentheses.vim.git'  "多色彩括号匹配插件
 Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
-" Plugin 'https://github.com/preservim/nerdcommenter.git'  " 快速注释
-Plugin 'https://github.com/terryma/vim-smooth-scroll.git'  " 翻页更加顺滑
+" Plugin 'https://github.com/terryma/vim-smooth-scroll.git'  " 翻页更加顺滑
 Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
 " Plugin 'https://github.com/xolox/vim-lua-ftplugin'  " lua插件
 " Plugin 'https://github.com/xolox/vim-misc'  " lua插件 依赖
-
 
 
 " All of your Plugins must be added before the following line
@@ -142,14 +140,14 @@ let g:mapleader = ','
 " 设置高亮当前行和当前列
 set cursorline " 选中行高亮
 hi CursorLine   cterm=NONE ctermbg=black ctermfg=NONE guibg=NONE guifg=NONE
-" set cursorcolumn
+" set cursorcolumn 选中列高亮
 " hi CursorColumn cterm=NONE ctermbg=black ctermfg=green guibg=NONE guifg=NONE
 
 " 设置u的返回步数限制
 if has('persistent_undo')
     set undofile               " 开启u回滚文件记录
-    set undolevels=1000         " 最大数量的改变回滚
-    set undoreload=10000        " 最大数量重载可回滚行数
+    set undolevels=100         " 最大数量的改变回滚
+    set undoreload=1000        " 最大数量重载可回滚行数
 endif
 
 " 调整缩进后自动选中，方便再次操作
@@ -173,8 +171,20 @@ set helplang=cn  "帮助系统设置为中文
 set noswapfile   " 不生成swap文件
 set noundofile  " 不生成撤销记录文件
 set backspace=2   " 解决插入模式下delete/backspce键失效问题
-set mouse=a   " 支持鼠标滚动
+" set mouse=a   " 支持鼠标滚动
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 主题
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set background=dark
+" colorscheme darkblue2
+" colorscheme kalisi
+colorscheme solarized
+" colorscheme codeschool 
+" colorscheme dracula
+" colorscheme janah
+" colorscheme darkocean
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -210,47 +220,6 @@ nmap <C-a> ggvG$
 " imap <C-s> <Esc>:wa<cr>i<Right>
 " nmap <C-s> :wa<cr>
 
-" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
-" set relativenumber number
-" au FocusLost * :set norelativenumber number
-" au FocusGained * :set relativenumber
-" " 插入模式下用绝对行号, 普通模式下用相对
-" autocmd InsertEnter * :set norelativenumber number
-" autocmd InsertLeave * :set relativenumber
-" function! NumberToggle()
-"   if(&relativenumber == 1)
-"     set norelativenumber number
-"   else
-"     set relativenumber
-"   endif
-" endfunc
-" nnoremap <C-n> :call NumberToggle()<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" vim与系统公用剪切板(兼容mac和liunx)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('clipboard')
-    if has('unnamedplus')
-        set clipboard=unnamedplus
-    else
-        set clipboard=unnamed
-    endif
-endif
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 主题
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set background=dark
-" colorscheme darkblue2
-" colorscheme kalisi
-colorscheme solarized
-" colorscheme codeschool 
-" colorscheme dracula
-" colorscheme janah
-" colorscheme darkocean
-
 
 "  """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "  " 个人签名
@@ -268,11 +237,42 @@ colorscheme solarized
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of tagbar
-" ubuntu: sudo apt-get install exuberant-ctags 支持
-" mac: brew install ctags
+" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
+set relativenumber number
+au FocusLost * :set norelativenumber number
+au FocusGained * :set relativenumber
+" 插入模式下用绝对行号, 普通模式下用相对
+autocmd InsertEnter * :set norelativenumber number
+autocmd InsertLeave * :set relativenumber
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber number
+  else
+    set relativenumber
+  endif
+endfunc
+nnoremap <C-n> :call NumberToggle()<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim与系统公用剪切板(兼容mac和liunx)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('clipboard')
+    if has('unnamedplus')
+        set clipboard=unnamedplus
+    else
+        set clipboard=unnamed
+    endif
+endif
+
+
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " setting of tagbar
+" " ubuntu: sudo apt-get install exuberant-ctags 支持
+" " mac: brew install ctags
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" nmap <F8> :TagbarToggle<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -299,7 +299,8 @@ let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=[
     \ '\.pyc', '\~$', '\.swo$', '\.swp$', '^\.git$', '\.hg', 
-    \ '\.svn', '\.bzr', 'node_modules', '__pycache__'
+    \ '\.svn', '\.bzr', 'node_modules', '__pycache__',
+    \ '\.tmp', '\.DS_Store'
     \]  
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=0
@@ -307,7 +308,7 @@ let NERDTreeMouseMode=2
 let g:nerdtree_tabs_open_on_gui_startup=0
 " map <C-e> :NERDTreeToggle<CR>
 " map <C-e> :NERDTreeFocus<CR> 
-map <Leader><C-e> :NERDTreeClose<CR>
+" map <Leader><C-e> :NERDTreeClose<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -317,7 +318,8 @@ let g:nerdtree_tabs_open_on_console_startup=0
 let g:nerdtree_tabs_autofind=1
 let g:nerdtree_tabs_focus_on_files=1
 " map <C-e> :NERDTreeTabsToggle<CR>
-map <C-e> :NERDTreeTabsOpen<CR> 
+" map <C-e> :NERDTreeTabsOpen<CR> 
+map <C-e> :NERDTreeFocusToggle<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -343,8 +345,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\.py$']  " 不校验py避免和python-mode冲突
-" let g:syntastic_loc_list_height = 5
-" let g:syntastic_aggregate_errors = 1
+let g:syntastic_loc_list_height = 5
+let g:syntastic_aggregate_errors = 0
 " nnoremap <silent> <C-d> :lclose<CR>
 
 
@@ -353,6 +355,9 @@ let g:syntastic_ignore_files = ['\.py$']  " 不校验py避免和python-mode冲�
 " setting of python-mode
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:pymode_rope = 0
+let g:pymode_lint_on_write = 1
+let g:pymode_warnings = 0
+let g:pymode_lint_ignore = ["E303", "E302", "E501"]  " 选择性的跳过一些错误
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -398,16 +403,16 @@ let g:indentLine_char = "┆"
 "let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of vim-smooth-scroll
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Distance: This is the total number of lines you want to scroll
-" Duration: This is how long you want each frame of the scrolling animation to last in milliseconds. Each frame will take at least this amount of time. It could take more if Vim's scrolling itself is slow
-" Speed: This is how many lines to scroll during each frame of the scrolling animation
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " setting of vim-smooth-scroll
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " Distance: This is the total number of lines you want to scroll
+" " Duration: This is how long you want each frame of the scrolling animation to last in milliseconds. Each frame will take at least this amount of time. It could take more if Vim's scrolling itself is slow
+" " Speed: This is how many lines to scroll during each frame of the scrolling animation
+" noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+" noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+" noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+" noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -422,18 +427,10 @@ endif
 " 高亮搜索关键词
 let g:ackhighlight = 1
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of vim-javascript
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let javascript_enable_domhtmlcss = 1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of nerdcommenter
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" map <leader>cc " 加注释
-" map <leader>cu " 解开注释
-" map <leader>c<space>  " 加上/解开注释, 智能判断
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " setting of vim-javascript
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" let javascript_enable_domhtmlcss = 1
 
 
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
