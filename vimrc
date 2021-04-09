@@ -54,6 +54,7 @@ Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
 Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
 " Plugin 'https://github.com/xolox/vim-lua-ftplugin'  " lua插件
 " Plugin 'https://github.com/xolox/vim-misc'  " lua插件 依赖
+Plugin 'https://github.com/fatih/vim-go'  " go插件
 
 
 " All of your Plugins must be added before the following line
@@ -344,7 +345,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_ignore_files = ['\.py$']  " 不校验py避免和python-mode冲突
+let g:syntastic_ignore_files = ['\.py$', '\.go$']  " 不校验py避免和python-mode冲突
 let g:syntastic_loc_list_height = 5
 let g:syntastic_aggregate_errors = 0
 " nnoremap <silent> <C-d> :lclose<CR>
@@ -357,7 +358,9 @@ let g:syntastic_aggregate_errors = 0
 let g:pymode_rope = 0
 let g:pymode_lint_on_write = 1
 let g:pymode_warnings = 0
-let g:pymode_lint_ignore = ["E303", "E302", "E501"]  " 选择性的跳过一些错误
+let g:pymode_lint_checkers = ['pyflakes', 'mccabe'] "  Values may be chosen from: `pylint`, `pep8`, `mccabe`, `pep257`, `pyflakes`.
+
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -451,3 +454,27 @@ let g:ackhighlight = 1
 " " You can disable this option too
 " " if you don't want linters to run on opening a file
 " let g:ale_lint_on_enter = 0
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of YouCompleteMe
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ycm_collect_identifiers_from_tags_files = 1           " 开启 YCM 基于标签引擎
+let g:ycm_collect_identifiers_from_comments_and_strings = 1 " 注释与字符串中的内容也用于补全
+let g:ycm_seed_identifiers_with_syntax = 1                  " 语法关键字补全
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" setting of fatih/vim-go
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:go_fmt_experimental = 1  " 保存格式化的时候不要折叠
+let g:godef_split = 2 "左右打开新窗口的时候
+let g:godef_same_file_in_same_window = 1 "函数在同一个文件中时不需要打开新窗口
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
