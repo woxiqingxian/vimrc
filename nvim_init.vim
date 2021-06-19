@@ -2,6 +2,10 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " plug 插件列表
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 这里面的路径是可以自定义的，
+" 但是nvim的data目录是 ~/.local/share/nvim  
+" 为了统一所以就放在data目录下面
+" - For Neovim: stdpath('data') . '/plugged'
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'vim-airline/vim-airline'  " 状态栏
@@ -39,30 +43,43 @@ Plug 'junegunn/fzf.vim'
 call plug#end()
 
   
+" 通用设置
 filetype plugin indent on  "开启自动识别文件类型，并根据文件类型加载不同的插件和缩进规则
 syntax on         "语法高亮
 set encoding=utf-8  "通用的 utf8 编码，避免乱码
-set hidden
+set hidden        " 退出buffer提醒被修改是否需要保存
+set noswapfile   " 不生成swap文件
+set laststatus=2  " 总是显示状态栏
+set autoread      " 文件在Vim之外修改过，自动重新读入
+
+" 格式设置
 set number        " 显示行号
-set ignorecase    " 无视大小写
-set smartcase     " 如果有大写就区别大小写匹配
 set foldmethod=indent  " 定义折叠代码 
 set tabstop=4     " tab=4空格
 set expandtab     " tab由空格表示
 set shiftwidth=4  " 缩进位宽=4个空格位
 set nowrap        " 取消自动折行
+
+" 移动设置
 set scrolljump=10 " 光标离开屏幕范围 
 set scrolloff=5   " 光标移动至少保留行数
 set splitright    " 用vsplit新建窗口，让新的放右边
 set splitbelow    " 用split新建窗口，让新的放下面
 
+" 设置搜索
+set hlsearch   " 高亮搜索项 
+set incsearch  " 搜索时自动匹配 
+set ignorecase " 无视大小写 
+set smartcase  " 如果有大写就区别大小写匹配
+" set nowrapscan "禁止在搜索到文件两端时重新搜索
+nmap <Esc><Esc> :nohlsearch<CR>  " ESC取消搜索高亮
+
+" 键位绑定
 vnoremap < <gv    " 调整缩进后自动选中，方便再次操作
 vnoremap > >gv    " 调整缩进后自动选中，方便再次操作
-nmap <Esc><Esc> :nohlsearch<CR>  " ESC取消搜索高亮
 nmap <C-a> ggvG$  " 全选
 nmap <C-l> gt     " 切换vim的tab
 nmap <C-h> gT     " 切换vim的tab
-
 
 " 设置高亮当前行和当前列
 set cursorline " 选中行高亮
@@ -74,7 +91,18 @@ hi CursorLine   cterm=NONE ctermbg=black ctermfg=NONE guibg=NONE guifg=NONE
 " 主题
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set background=dark
-colorscheme solarized
+colorscheme gruvbox
+" colorscheme solarized
+
+" colors deus
+" set t_Co=256
+" set termguicolors
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" set background=dark    " Setting dark mode
+" colorscheme deus
+" let g:deus_termcolors=256
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim与系统公用剪切板(兼容mac和liunx)
@@ -87,25 +115,30 @@ if has('clipboard')
     endif
 endif
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-airline/vim-airline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" tabline 配置，不用，整个tab栏很密集
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline#extensions#tabline#formatter = 'default'
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " preservim/nerdtree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeWinPos = "left"
 let NERDTreeWinSize = 25
-let NERDTreeHighlightCursorline=1
-set t_Co=256
-let NERDTreeShowBookmarks=1
-" 那些不显示
+" 显示隐藏文件
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=[
     \ '\.pyc', '\~$', '\.swo$', '\.swp$', '^\.git$', '\.hg',
     \ '\.svn', '\.bzr', 'node_modules', '__pycache__',
     \ '\.tmp', '\.DS_Store'
     \]
-let NERDTreeChDirMode=0
-let NERDTreeQuitOnOpen=0
-let NERDTreeMouseMode=2
-let g:nerdtree_tabs_open_on_gui_startup=0
+" map <C-e> :NERDTreeFocusToggle<CR>
 " Exit Vim if NERDTree is the only window left.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
@@ -114,7 +147,6 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 " jistr/vim-nerdtree-tabs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:nerdtree_tabs_open_on_console_startup=0
-let g:nerdtree_tabs_autofind=1
 let g:nerdtree_tabs_focus_on_files=1
 map <C-e> :NERDTreeFocusToggle<CR>
 
