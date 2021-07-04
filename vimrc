@@ -1,4 +1,4 @@
- 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " setting of vundle
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -16,28 +16,11 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" Plugin 'https://github.com/wincent/command-t.git'
-" Plugin '/home/eddie/Downloads/command-t'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}  " html高亮工具
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
 " Plugin 'https://github.com/flazz/vim-colorschemes.git'  " 配色整合
 Plugin 'https://github.com/preservim/nerdtree.git'  " 树形目录结构
 Plugin 'https://github.com/jistr/vim-nerdtree-tabs.git'
 Plugin 'https://github.com/vim-airline/vim-airline.git'  " 下面的状态栏
-Plugin 'https://github.com/kien/ctrlp.vim.git'  " 查询文件
+Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git' " 查询文件
 Plugin 'https://github.com/vim-syntastic/syntastic.git'  " 代码语法检查
 " Plugin 'https://github.com/dense-analysis/ale.git'  " 代码语法检查(异步)
 " Plugin 'https://github.com/majutsushi/tagbar.git'  " 函数结构
@@ -51,7 +34,7 @@ Plugin 'https://github.com/tmhedberg/SimpylFold.git'  " 用于配合foldmethod=i
 Plugin 'https://github.com/kien/rainbow_parentheses.vim.git'  "多色彩括号匹配插件
 Plugin 'https://github.com/Yggdroot/indentLine.git'  " 缩进指示
 " Plugin 'https://github.com/terryma/vim-smooth-scroll.git'  " 翻页更加顺滑
-Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
+" Plugin 'https://github.com/mileszs/ack.vim.git' " 配合ag使用搜索文件内容
 " Plugin 'https://github.com/xolox/vim-lua-ftplugin'  " lua插件
 " Plugin 'https://github.com/xolox/vim-misc'  " lua插件 依赖
 Plugin 'https://github.com/fatih/vim-go'  " go插件
@@ -86,28 +69,28 @@ set fencs=utf-8,usc-bom,euc-jp,gb18030,gb2312,cp936,gbk
 set fdm=marker
 
 " ------设置搜索
-set hlsearch " 高亮搜索项 
-set incsearch " 搜索时自动匹配 
-set ignorecase    " 无视大小写 
+set hlsearch " 高亮搜索项
+set incsearch " 搜索时自动匹配
+set ignorecase    " 无视大小写
 set smartcase     " 如果有大写就区别大小写匹配
 " set nowrapscan "禁止在搜索到文件两端时重新搜索
 nmap <Esc><Esc> :nohlsearch<CR>  " ESC取消搜索高亮
 
 " ------格式
-" manual 手工定义折叠         
-" indent 更多的缩进表示更高级别的折叠         
-" expr 用表达式来定义折叠         
-" syntax 用语法高亮来定义折叠         
-" diff 对没有更改的文本进行折叠         
+" manual 手工定义折叠
+" indent 更多的缩进表示更高级别的折叠
+" expr 用表达式来定义折叠
+" syntax 用语法高亮来定义折叠
+" diff 对没有更改的文本进行折叠
 " marker 对文中的标志折叠
 set foldmethod=indent
 set nowrap        " 取消自动折行
-set number  " 显示行号
-set autoindent  " 继承前一行的缩进方式，特别适合于多行注释
-set tabstop=4     " tab=4空格 
-set softtabstop=4 " 回退可以删除缩进 
+set number        " 显示行号
+set autoindent    " 继承前一行的缩进方式，特别适合于多行注释
+set tabstop=4     " tab=4空格
+set softtabstop=4 " 回退可以删除缩进
 set shiftwidth=4  " 缩进位宽=4个空格位
-set autoindent    " 自动缩进 
+set autoindent    " 自动缩进
 set expandtab     " tab由空格表示
 
 set nojoinspaces  " 用J合并两行用一个空格隔开
@@ -126,12 +109,16 @@ filetype indent on
 filetype plugin on
 " 启动自动补全
 filetype plugin indent on
+" 处理卡顿
+set re=1
+set ttyfast
+set lazyredraw
 
 " 修改leader键
 let mapleader = ','
 let g:mapleader = ','
 
-" 单行长度超80个字符提醒 
+" 单行长度超80个字符提醒
 " set textwidth=80  " 内容宽度
 :set cc=80
 " highlight ColorColumn ctermbg=235 guibg=#2c2d27
@@ -162,10 +149,10 @@ set nocompatible "不要vim模仿vi模式，建议设置，否则会有很多不
 set laststatus=2  " 总是显示状态栏
 set shortmess=atI"  " 关闭欢迎页面
 " set autowrite     " 切换文件自动保存 https://github.com/terryma/vim-multiple-cursors/raw/master/assets/example1.gif?raw=true
-set wildmenu      " 自动补全时的文件菜单
-set wildmode=list:longest,full " 自动补全时，匹配最长子串，列出文件
-set whichwrap=b,s,h,l,<,>,[,]  " 行尾可右移到下行，行首左移到上行,b：退格，s：空格，hl：左右，<>：n/v模式下的左右，[]：i/r模式下的左右
-set scrolljump=10  " 光标离开屏幕范围 
+" set wildmenu      " 自动补全时的文件菜单
+" set wildmode=list:longest,full " 自动补全时，匹配最长子串，列出文件
+" set whichwrap=b,s,h,l,<,>,[,]  " 行尾可右移到下行，行首左移到上行,b：退格，s：空格，hl：左右，<>：n/v模式下的左右，[]：i/r模式下的左右
+set scrolljump=10  " 光标离开屏幕范围
 set scrolloff=5   " 光标移动至少保留行数
 set autoread   "文件在Vim之外修改过，自动重新读入
 set helplang=cn  "帮助系统设置为中文
@@ -182,7 +169,7 @@ set background=dark
 " colorscheme darkblue2
 " colorscheme kalisi
 colorscheme solarized
-" colorscheme codeschool 
+" colorscheme codeschool
 " colorscheme dracula
 " colorscheme janah
 " colorscheme darkocean
@@ -195,11 +182,19 @@ colorscheme solarized
 nmap <C-l> gt
 nmap <C-h> gT
 
-" 设置tag和window间快速跳转 
+" 普通模式下 保存和退出文档
+nmap <C-w><C-w> :w<CR>
+nmap <C-q><C-q> :q<CR>
+nmap <S-q><S-q> :q!<CR>
+nmap <C-q><C-a> :qa<CR>
+nmap <C-w><C-q> :wq<CR>
+
+
+" 设置tag和window间快速跳转
 " let g:easyWindows = 1
 " if exists('g:easyWindows')
 "     " 向上
-"     map <C-J> <C-W>j<C-W>_  
+"     map <C-J> <C-W>j<C-W>_
 "     " 向下
 "     map <C-K> <C-W>k<C-W>_
 "     " 向右
@@ -237,23 +232,23 @@ nmap <C-a> ggvG$
 
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set relativenumber number
-au FocusLost * :set norelativenumber number
-au FocusGained * :set relativenumber
-" 插入模式下用绝对行号, 普通模式下用相对
-autocmd InsertEnter * :set norelativenumber number
-autocmd InsertLeave * :set relativenumber
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set norelativenumber number
-  else
-    set relativenumber
-  endif
-endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" set relativenumber number
+" au FocusLost * :set norelativenumber number
+" au FocusGained * :set relativenumber
+" " 插入模式下用绝对行号, 普通模式下用相对
+" autocmd InsertEnter * :set norelativenumber number
+" autocmd InsertLeave * :set relativenumber
+" function! NumberToggle()
+"   if(&relativenumber == 1)
+"     set norelativenumber number
+"   else
+"     set relativenumber
+"   endif
+" endfunc
+" nnoremap <C-n> :call NumberToggle()<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -299,17 +294,14 @@ let NERDTreeShowBookmarks=1
 " 那些不显示
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=[
-    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '^\.git$', '\.hg', 
+    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '^\.git$', '\.hg',
     \ '\.svn', '\.bzr', 'node_modules', '__pycache__',
     \ '\.tmp', '\.DS_Store'
-    \]  
+    \]
 let NERDTreeChDirMode=0
 let NERDTreeQuitOnOpen=0
 let NERDTreeMouseMode=2
 let g:nerdtree_tabs_open_on_gui_startup=0
-" map <C-e> :NERDTreeToggle<CR>
-" map <C-e> :NERDTreeFocus<CR> 
-" map <Leader><C-e> :NERDTreeClose<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeType == "primary") | q | endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -318,8 +310,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&b:NERDTreeT
 let g:nerdtree_tabs_open_on_console_startup=0
 let g:nerdtree_tabs_autofind=1
 let g:nerdtree_tabs_focus_on_files=1
-" map <C-e> :NERDTreeTabsToggle<CR>
-" map <C-e> :NERDTreeTabsOpen<CR> 
 map <C-e> :NERDTreeFocusToggle<CR>
 
 
@@ -330,7 +320,7 @@ let g:ctrlp_working_path_mode = 'ra'
 nnoremap <silent> <D-t> :CtrlP<CR>
 nnoremap <silent> <D-r> :CtrlPMRU<CR>
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|bookdata$\|__pycache__$',
+	\ 'dir':  '\.git$\|\.hg$\|\.svn$\|node_modules$\|__pycache__$',
     \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$\|\.jpg$'
 	\}
 
@@ -359,8 +349,6 @@ let g:pymode_rope = 0
 let g:pymode_lint_on_write = 1
 let g:pymode_warnings = 0
 let g:pymode_lint_checkers = ['pyflakes', 'mccabe'] "  Values may be chosen from: `pylint`, `pep8`, `mccabe`, `pep257`, `pyflakes`.
-
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -418,17 +406,17 @@ let g:indentLine_char = "┆"
 " noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" setting of ack.vim
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 使用 leader + a search
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep --nogroup --column'
-endif
-" 高亮搜索关键词
-let g:ackhighlight = 1
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " setting of ack.vim
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " 使用 leader + a search
+" cnoreabbrev Ack Ack!
+" nnoremap <Leader>a :Ack!<Space>
+" if executable('ag')
+"   let g:ackprg = 'ag --vimgrep --nogroup --column'
+" endif
+" " 高亮搜索关键词
+" let g:ackhighlight = 1
 
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " " setting of vim-javascript
@@ -441,13 +429,13 @@ let g:ackhighlight = 1
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " let g:ale_sign_error = '>>'
 " let g:ale_sign_warning = '--'
-" 
+"
 " let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 " let g:ale_echo_msg_error_str = 'E'
 " let g:ale_echo_msg_warning_str = 'W'
 " let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " " let g:ale_set_highlights = 1
-" 
+"
 " " Write this in your vimrc file
 " let g:ale_lint_on_text_changed = 'never'
 " let g:ale_lint_on_insert_leave = 0
@@ -470,11 +458,13 @@ let g:ycm_seed_identifiers_with_syntax = 1                  " 语法关键字补
 let g:go_fmt_experimental = 1  " 保存格式化的时候不要折叠
 let g:godef_split = 2 "左右打开新窗口的时候
 let g:godef_same_file_in_same_window = 1 "函数在同一个文件中时不需要打开新窗口
+let g:go_list_type = "quickfix"
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
