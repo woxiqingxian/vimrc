@@ -58,9 +58,14 @@ nmap <C-q><C-a> :qa<CR>
 nmap <C-w><C-q> :wq<CR>
 
 " vim窗口变动，实验性
-nmap <C-w>+ :vertical resize +5<CR>
-nmap <C-w>- :vertical resize -5<CR>
+nmap <C-w><C-k> :resize +5<CR>
+nmap <C-w><C-j> :resize -5<CR>
+nmap <C-w><C-h> :vertical resize -5<CR>
+nmap <C-w><C-l> :vertical resize +5<CR>
 
+" 行首和行尾跳动
+nmap 0 0
+nmap - $
 
 " 设置高亮当前行和当前列
 set cursorline " 选中行高亮
@@ -101,17 +106,23 @@ Plug 'mhinz/vim-startify' " 自定义启动页面
 
 Plug 'vim-airline/vim-airline'  " 状态栏
 Plug 'APZelos/blamer.nvim'  " 显示某一行GIT提交信息
-" Plug 'airblade/vim-gitgutter' " GIT修改信息侧边栏，还没想好怎么使用
+Plug 'airblade/vim-gitgutter' " GIT修改信息侧边栏
 
-" nerdtree 是主要的， vim-nerdtree-tabs配合在所有buffer展开文件树
 Plug 'preservim/nerdtree'  " 树形文件
-Plug 'jistr/vim-nerdtree-tabs'  " 树形文件
+Plug 'jistr/vim-nerdtree-tabs'  " nerdtree插件,配合在所有buffer展开文件树
+Plug 'Xuyuanp/nerdtree-git-plugin' "  nerdtree的git插件
 
 Plug 'kien/rainbow_parentheses.vim'  "多色彩括号匹配插件
 Plug 'Yggdroot/indentLine'  " 缩进指示
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }  " go插件
 Plug 'posva/vim-vue'  " vue 语法高亮
+
+Plug 'cespare/vim-toml' " toml 语法插件
+
+" 尝试开始学习使用
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}  " 多光标编辑
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }  " markdown格式实时预览
 
 " " 语法补全服务，deoplete是一个框架，对应语言的补全需要对应的插件
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } " 自动补全
@@ -154,7 +165,7 @@ let NERDTreeWinSize = 25
 " 显示隐藏文件
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=[
-    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '^\.git$', '\.hg',
+    \ '\.pyc', '\~$', '\.swo$', '\.swp$', '\.hg',
     \ '\.svn', '\.bzr', 'node_modules', '__pycache__',
     \ '\.tmp', '\.DS_Store'
     \]
@@ -168,9 +179,25 @@ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTr
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:nerdtree_tabs_open_on_console_startup=0
 let g:nerdtree_tabs_focus_on_files=1
+let g:nerdtree_tabs_autofind=0
 nmap <silent> <C-e> :NERDTreeFocusToggle<CR>
 nmap <silent> <S-e> :NERDTreeTabsToggle<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Xuyuanp/nerdtree-git-plugin
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ 'Modified'  :'✹',
+    \ 'Staged'    :'✚',
+    \ 'Untracked' :'✭',
+    \ 'Renamed'   :'➜',
+    \ 'Unmerged'  :'═',
+    \ 'Deleted'   :'✖',
+    \ 'Dirty'     :'✗',
+    \ 'Ignored'   :'☒',
+    \ 'Clean'     :'✔︎',
+    \ 'Unknown'   :'?',
+    \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " kien/rainbow_parentheses
@@ -230,9 +257,11 @@ let g:indentLine_char = "┆"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fatih/vim-go
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:go_fmt_command = "goimports" " 格式化将默认的 gofmt 替换
+let g:go_fmt_command = "goimports" " 自动导入依赖
 let g:go_list_type = "quickfix"
 let g:go_fmt_experimental = 1  " 在保存文件时候，格式化会折叠所有代码，设置这个就不会折叠了
+" let g:go_auto_sameids = 1  " 在单词上自动高亮同个id
+" let g:go_updatetime = 300
 
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -243,9 +272,10 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 
+au FileType go nmap <C-g><C-g> <Plug>(go-def-tab)
 au FileType go nmap <C-g><C-s> <Plug>(go-def-split)
 au FileType go nmap <C-g><C-v> <Plug>(go-def-vertical)
-au FileType go nmap <C-g><C-g> <Plug>(go-def-tab)
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -276,11 +306,12 @@ nnoremap <silent> <S-p> :Ag<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " APZelos/blamer.nvim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:blamer_enabled = 0  " 0关闭 1开启，使用 :BlamerToggle 来启动
+let g:blamer_enabled = 1  " 0关闭 1开启，使用 :BlamerToggle 来启动
 let g:blamer_delay = 100  " 显示反应速度 ms
 let g:blamer_show_in_visual_modes = 0  " 选择模式不启动
 let g:blamer_show_in_insert_modes = 0  " 插入模式不启动
 let g:blamer_date_format = "%Y-%m-%d %H:%M"
+" let g:blamer_prefix = '  >>> '
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -360,17 +391,31 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:startify_custom_header =  [
 \ '',
-\ '                     +------------------------------+',
-\ '                     |                              |',
-\ '                     |        快捷键提醒            |',
-\ '                     |                              |',
-\ '                     +----------------+-------------+',
-\ '                      普通模式下 保存和退出文档 ',
-\ '                      nmap <C-w><C-w> :w<CR> ',
-\ '                      nmap <C-q><C-q> :q<CR> ',
-\ '                      nmap <S-q><S-q> :q!<CR> ',
-\ '                      nmap <C-q><C-a> :qa<CR> ',
-\ '                      nmap <C-w><C-q> :wq<CR> ',
+\ '            +------------------------------+                        ',
+\ '            |        快捷键提醒            |                        ',
+\ '            +----------------+-------------+                        ',
+\ '            Vim录制宏                                               ',
+\ '            在normal模式下，按q加一个字母(比如qx)表示开始录制       ',
+\ '            输入结束之后，按下q完成录制                             ',
+\ '            Vim使用宏                                               ',
+\ '            在normal模式下，@加一个字母x                            ',
+\ '            @@表示是对上一次宏的重复使用                            ',
+\ '                                                                          ',
+\ '            NERDTree快捷键                                                                        ',
+\ '            新建文件	ma	在要创建文件的目录中按命令 ma然后键入你要创建的文件名称即可。            ',
+\ '            删除文件	md	在要删除的文件上按命令md然后输入y回车即可。                              ',
+\ '            移动/修改文件名	mm	在要修改的文件上按命令mm然后输入对应的目录和名称回车即可。       ',
+\ '                                                                                                  ',
+\ '            vim窗口变动，实验性 ',
+\ '            nmap <C-w><C-k> :resize +5<CR> ',
+\ '            nmap <C-w><C-j> :resize -5<CR> ',
+\ '            nmap <C-w><C-h> :vertical resize -5<CR> ',
+\ '            nmap <C-w><C-l> :vertical resize +5<CR> ',
+\ '',
+\ '            尝试开始学习使用 ',
+\ '            Plug mg979/vim-visual-multi  多光标编辑 ',
+\ '            Plug iamcco/markdown-preview.nvim " markdown格式实时预览 ',
+\ '',
 \]
 let g:startify_custom_footer = []
 let g:startify_lists = []
